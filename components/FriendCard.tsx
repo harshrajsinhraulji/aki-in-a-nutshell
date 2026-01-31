@@ -1,59 +1,71 @@
-interface FriendCardProps {
-    id: string;
+"use client";
+
+import { motion } from "framer-motion";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
+import { Badge } from "@/components/ui/Badge";
+import { cn } from "@/lib/utils";
+
+interface FriendProps {
     name: string;
-    nickname?: string;
-    emoji?: string;
-    since?: string;
-    description?: string;
-    isPublic?: boolean;
+    username: string;
+    avatar: string;
+    bio: string;
+    tags: string[];
+    color?: string; // Optional custom color for the sticker border/bg
+    rotation?: number; // Random rotation for sticker effect
 }
 
 export default function FriendCard({
     name,
-    nickname,
-    emoji = "👤",
-    since,
-    description,
-    isPublic = true,
-}: FriendCardProps) {
-    if (!isPublic) {
-        return (
-            <article className="glass rounded-2xl p-6 text-center opacity-60">
-                <div className="text-4xl mb-4">🔒</div>
-                <p className="text-sm" style={{ color: "rgba(18, 18, 18, 0.5)" }}>
-                    private friend
-                </p>
-            </article>
-        );
-    }
-
+    username,
+    avatar,
+    bio,
+    tags,
+    color = "bg-white",
+    rotation = 0,
+}: FriendProps) {
     return (
-        <article className="glass rounded-2xl p-6 text-center transition-transform hover:scale-105">
-            <div className="text-5xl mb-4">{emoji}</div>
-            <h2
-                className="text-lg font-heading font-semibold mb-1"
-                style={{ color: "#121212" }}
-            >
-                {nickname || name}
-            </h2>
-            {nickname && name !== nickname && (
-                <p className="text-sm mb-2" style={{ color: "rgba(18, 18, 18, 0.5)" }}>
-                    ({name})
-                </p>
+        <motion.div
+            whileHover={{ scale: 1.05, rotate: 0, zIndex: 10 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ rotate: rotation, opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={cn(
+                "relative flex flex-col items-center p-6 rounded-3xl shadow-md border-2 border-white/50 backdrop-blur-sm transition-all cursor-default",
+                color
             )}
-            {since && (
-                <p className="text-xs mb-3" style={{ color: "rgba(18, 18, 18, 0.4)" }}>
-                    friends since {since}
+            style={{
+                rotate: `${rotation}deg`,
+            }}
+        >
+            {/* Tape Effect */}
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-yellow-100/80 rotate-1 shadow-sm backdrop-blur-sm z-20 opacity-80" />
+
+            <Avatar className="w-20 h-20 border-4 border-white shadow-lg mb-4">
+                <AvatarImage src={avatar} alt={name} />
+                <AvatarFallback>{name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            </Avatar>
+
+            <div className="text-center w-full">
+                <h3 className="font-heading font-bold text-lg text-aki-dark">{name}</h3>
+                <p className="text-sm font-mono text-aki-muted mb-2">@{username}</p>
+
+                <p className="text-sm text-aki-dark/80 line-clamp-3 mb-4 min-h-[3.75rem]">
+                    &quot;{bio}&quot;
                 </p>
-            )}
-            {description && (
-                <p
-                    className="text-sm italic"
-                    style={{ color: "rgba(18, 18, 18, 0.7)" }}
-                >
-                    &quot;{description}&quot;
-                </p>
-            )}
-        </article>
+
+                <div className="flex flex-wrap justify-center gap-1.5">
+                    {tags.map((tag) => (
+                        <Badge
+                            key={tag}
+                            variant="secondary"
+                            className="bg-white/50 hover:bg-white/80 text-[10px] px-2"
+                        >
+                            {tag}
+                        </Badge>
+                    ))}
+                </div>
+            </div>
+        </motion.div>
     );
 }
