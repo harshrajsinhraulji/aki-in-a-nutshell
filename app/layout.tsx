@@ -5,6 +5,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ToastProvider } from "@/components/ui/Toast";
+import NoiseOverlay from "@/components/ui/NoiseOverlay";
 
 const sora = Sora({
     subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({
                 className="antialiased min-h-screen flex flex-col bg-aki-light selection:bg-aki-pink selection:text-white overflow-x-hidden"
                 suppressHydrationWarning
             >
+                <NoiseOverlay />
                 <AuthProvider>
                     <ToastProvider>
                         <Header />
