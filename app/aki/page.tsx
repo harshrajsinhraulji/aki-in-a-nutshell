@@ -1,135 +1,78 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Lock, Unlock } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 
-export default function AkiPage() {
+export default function AkiLockScreen() {
+    const router = useRouter();
     const [password, setPassword] = useState("");
     const [isUnlocked, setIsUnlocked] = useState(false);
-    const [error, setError] = useState("");
+    const [error, setError] = useState(false);
 
-    // Default password as specified in requirements
-    const correctPassword = "akiupload";
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (password === correctPassword) {
+    const handleUnlock = () => {
+        // Mock password - "dream"
+        if (password.toLowerCase() === "dream") {
             setIsUnlocked(true);
-            setError("");
+            setTimeout(() => {
+                router.push("/aki/dashboard");
+            }, 1500);
         } else {
-            setError("wrong password, try again 💔");
+            setError(true);
+            setPassword("");
+            setTimeout(() => setError(false), 500);
         }
     };
 
-    if (!isUnlocked) {
-        return (
-            <div className="min-h-screen flex items-center justify-center px-4">
-                <div className="glass rounded-2xl p-8 max-w-md w-full text-center">
-                    <div className="text-6xl mb-6">🔐</div>
-                    <h1 className="text-2xl font-heading font-bold mb-2" style={{ color: "#121212" }}>
-                        aki&apos;s room
-                    </h1>
-                    <p className="text-sm mb-6" style={{ color: "rgba(18, 18, 18, 0.6)" }}>
-                        this is my private space. password required.
-                    </p>
+    return (
+        <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+            {/* Background Pulse */}
+            <motion.div
+                animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.2, 0.1] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 bg-neon-purple/5 blur-3xl z-0"
+            />
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="z-10 w-full max-w-sm p-8 bg-midnight-900/50 backdrop-blur-xl border border-white/5 rounded-3xl shadow-2xl">
+                <div className="flex justify-center mb-8">
+                    <motion.div
+                        animate={isUnlocked ? { scale: 1.2, rotate: 360 } : {}}
+                        transition={{ duration: 0.5 }}
+                        className={`p-4 rounded-full ${isUnlocked ? "bg-neon-cyan/20 text-neon-cyan" : "bg-white/5 text-stardust-400"}`}
+                    >
+                        {isUnlocked ? <Unlock size={32} /> : <Lock size={32} />}
+                    </motion.div>
+                </div>
+
+                <div className="space-y-6">
+                    <h2 className="text-center font-heading font-bold text-xl text-stardust-50">
+                        {isUnlocked ? "Access Granted" : "Restricted Area"}
+                    </h2>
+
+                    <div className="relative">
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            placeholder="enter the secret..."
-                            className="w-full p-3 rounded-xl border-2 border-transparent focus:border-pink-300 bg-white/50 text-center"
-                            autoFocus
+                            onKeyDown={(e) => e.key === "Enter" && handleUnlock()}
+                            placeholder="Enter Access Code"
+                            className={`w-full bg-midnight-950 border ${error ? "border-red-500 animate-shake" : "border-white/10"} rounded-xl px-4 py-3 text-center text-stardust-50 tracking-widest focus:outline-none focus:border-neon-purple transition-colors`}
+                            disabled={isUnlocked}
                         />
-                        {error && (
-                            <p className="text-sm" style={{ color: "#FF6CA4" }}>{error}</p>
-                        )}
-                        <button type="submit" className="w-full btn-primary py-3">
-                            unlock ✨
-                        </button>
-                    </form>
-
-                    <p className="text-xs mt-6 font-mono" style={{ color: "rgba(18, 18, 18, 0.4)" }}>
-                        hint: if you know, you know
-                    </p>
-                </div>
-            </div>
-        );
-    }
-
-    // Unlocked view
-    return (
-        <div className="min-h-screen px-4 py-12">
-            <div className="max-w-4xl mx-auto">
-                <header className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">
-                        <span style={{ color: "#FF6CA4" }}>welcome back</span> 💜
-                    </h1>
-                    <p className="text-lg" style={{ color: "rgba(18, 18, 18, 0.7)" }}>
-                        this is your space, aki
-                    </p>
-                </header>
-
-                {/* Quick Actions */}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                    <div className="glass rounded-2xl p-6 text-center">
-                        <div className="text-4xl mb-4">🧸</div>
-                        <h2 className="font-heading font-semibold mb-2" style={{ color: "#121212" }}>add plushie</h2>
-                        <p className="text-sm mb-4" style={{ color: "rgba(18, 18, 18, 0.6)" }}>new member of the family?</p>
-                        <button className="btn-primary text-sm opacity-50 cursor-not-allowed" disabled>
-                            coming wave 8
-                        </button>
                     </div>
 
-                    <div className="glass rounded-2xl p-6 text-center">
-                        <div className="text-4xl mb-4">👥</div>
-                        <h2 className="font-heading font-semibold mb-2" style={{ color: "#121212" }}>add friend</h2>
-                        <p className="text-sm mb-4" style={{ color: "rgba(18, 18, 18, 0.6)" }}>someone special?</p>
-                        <button className="btn-primary text-sm opacity-50 cursor-not-allowed" disabled>
-                            coming wave 8
-                        </button>
-                    </div>
+                    <Button
+                        onClick={handleUnlock}
+                        className="w-full bg-white/10 hover:bg-white/20 text-stardust-50"
+                        disabled={isUnlocked}
+                    >
+                        Authenticate
+                    </Button>
 
-                    <div className="glass rounded-2xl p-6 text-center">
-                        <div className="text-4xl mb-4">📖</div>
-                        <h2 className="font-heading font-semibold mb-2" style={{ color: "#121212" }}>write story</h2>
-                        <p className="text-sm mb-4" style={{ color: "rgba(18, 18, 18, 0.6)" }}>late night thoughts?</p>
-                        <button className="btn-primary text-sm opacity-50 cursor-not-allowed" disabled>
-                            coming wave 3
-                        </button>
-                    </div>
-
-                    <div className="glass rounded-2xl p-6 text-center">
-                        <div className="text-4xl mb-4">📸</div>
-                        <h2 className="font-heading font-semibold mb-2" style={{ color: "#121212" }}>upload photo</h2>
-                        <p className="text-sm mb-4" style={{ color: "rgba(18, 18, 18, 0.6)" }}>share a moment</p>
-                        <button className="btn-primary text-sm opacity-50 cursor-not-allowed" disabled>
-                            coming wave 5
-                        </button>
-                    </div>
-
-                    <div className="glass rounded-2xl p-6 text-center">
-                        <div className="text-4xl mb-4">🎵</div>
-                        <h2 className="font-heading font-semibold mb-2" style={{ color: "#121212" }}>add song</h2>
-                        <p className="text-sm mb-4" style={{ color: "rgba(18, 18, 18, 0.6)" }}>current obsession?</p>
-                        <button className="btn-primary text-sm opacity-50 cursor-not-allowed" disabled>
-                            coming wave 7
-                        </button>
-                    </div>
-
-                    <div className="glass rounded-2xl p-6 text-center">
-                        <div className="text-4xl mb-4">⚙️</div>
-                        <h2 className="font-heading font-semibold mb-2" style={{ color: "#121212" }}>settings</h2>
-                        <p className="text-sm mb-4" style={{ color: "rgba(18, 18, 18, 0.6)" }}>customize stuff</p>
-                        <button className="btn-primary text-sm opacity-50 cursor-not-allowed" disabled>
-                            coming wave 9
-                        </button>
-                    </div>
-                </div>
-
-                <div className="text-center">
-                    <p className="text-sm font-mono" style={{ color: "rgba(18, 18, 18, 0.5)" }}>
-                        ✦ your uploads will appear on the public pages ✦
+                    <p className="text-center text-xs text-stardust-600 font-mono">
+                        ID: AKI-001 // SYSTEM: NOCTURNAL
                     </p>
                 </div>
             </div>

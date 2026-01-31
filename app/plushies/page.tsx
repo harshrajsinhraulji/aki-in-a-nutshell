@@ -1,127 +1,93 @@
 "use client";
 
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useState } from "react";
-import PageHeader from "@/components/PageHeader";
-import PageShell from "@/components/PageShell";
-import PlushieCard from "@/components/PlushieCard";
-import { Button } from "@/components/ui/Button";
-import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
+import BlurImage from "@/components/ui/BlurImage";
+import { Sparkles } from "lucide-react";
 
-// Mock Data
+// Mock Data (Reused)
 const PLUSHIES = [
     {
         id: 1,
         name: "Sir Fluffington",
         image: "https://images.unsplash.com/photo-1559479059-8503164a275e?w=800&q=80",
-        description: "A distinguished gentleman who enjoys tea parties and silence.",
-        adoptedDate: "2018",
-        rarity: "Legendary" as const,
-        type: "Bear",
+        type: "Bear", rarity: "Legendary"
     },
     {
         id: 2,
         name: "Mochi",
         image: "https://images.unsplash.com/photo-1572535787682-1279a1d48c8b?w=800&q=80",
-        description: "Squishy, round, and smells faintly of vanilla bean.",
-        adoptedDate: "2020",
-        rarity: "Common" as const,
-        type: "Bunny",
+        type: "Bunny", rarity: "Common"
     },
     {
         id: 3,
         name: "Dr. Octopus",
         image: "https://images.unsplash.com/photo-1570724036728-660c6f14066f?w=800&q=80",
-        description: "Requires 8 hugs a day. Highly clingy.",
-        adoptedDate: "2019",
-        rarity: "Rare" as const,
-        type: "Aquatic",
+        type: "Aquatic", rarity: "Rare"
     },
     {
         id: 4,
         name: "Cloudy",
         image: "https://images.unsplash.com/photo-1555541570-5b6510a76cf3?w=800&q=80",
-        description: "Soft as a cloud, but with more emotional baggage.",
-        adoptedDate: "2021",
-        rarity: "Uncommon" as const,
-        type: "Cloud",
-    },
-    {
-        id: 5,
-        name: "Sprout",
-        image: "https://images.unsplash.com/photo-1563884873111-2092cc7a2928?w=800&q=80",
-        description: "A small dinosaur who believes he is a plant.",
-        adoptedDate: "2022",
-        rarity: "Rare" as const,
-        type: "Dino",
+        type: "Cloud", rarity: "Uncommon"
     },
 ];
 
-const FILTERS = ["All", "Bear", "Bunny", "Aquatic", "Dino", "Cloud"];
-
 export default function PlushiesPage() {
-    const [activeFilter, setActiveFilter] = useState("All");
-
-    const filteredPlushies = activeFilter === "All"
-        ? PLUSHIES
-        : PLUSHIES.filter(p => p.type === activeFilter);
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     return (
-        <PageShell>
-            <PageHeader
-                title="Plushie Shelf"
-                subtitle="The silent observers of my chaotic life."
-                emoji="🧸"
-            />
-
-            {/* Filter Bar */}
-            <div className="flex flex-wrap gap-2 justify-center mb-12">
-                {FILTERS.map((filter) => (
-                    <Button
-                        key={filter}
-                        variant={activeFilter === filter ? "primary" : "ghost"}
-                        size="sm"
-                        onClick={() => setActiveFilter(filter)}
-                        className="rounded-full"
-                    >
-                        {filter}
-                    </Button>
-                ))}
+        <div className="max-w-7xl mx-auto px-6 h-[80vh] flex flex-col justify-center">
+            <div className="mb-8">
+                <h1 className="text-4xl md:text-5xl font-heading font-bold text-stardust-50 mb-2">
+                    Plushie <span className="text-neon-pink">Deck</span>
+                </h1>
+                <p className="text-stardust-400 font-mono text-sm uppercase tracking-widest">
+                    Collection Status: <span className="text-neon-cyan">Obsessive</span>
+                </p>
             </div>
 
-            {/* Grid */}
-            <motion.div
-                layout
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-                <AnimatePresence mode="popLayout">
-                    {filteredPlushies.map((plushie) => (
+            <div className="flex gap-4 overflow-x-auto pb-12 snap-x snap-mandatory perspective-1000 items-center min-h-[500px]">
+                {PLUSHIES.map((plushie, index) => (
+                    <motion.div
+                        key={plushie.id}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="group relative flex-none w-[300px] h-[450px] snap-center"
+                        style={{ perspective: 1000 }}
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                    >
                         <motion.div
-                            key={plushie.id}
-                            layout
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            transition={{ duration: 0.3 }}
+                            className="w-full h-full rounded-3xl bg-midnight-800 border-2 border-white/5 overflow-hidden shadow-2xl relative"
+                            whileHover={{ rotateY: 10, scale: 1.05 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         >
-                            <PlushieCard
-                                name={plushie.name}
-                                image={plushie.image}
-                                description={plushie.description}
-                                adoptedDate={plushie.adoptedDate}
-                                rarity={plushie.rarity}
-                                onInspect={() => console.log("Inspect", plushie.name)}
-                            />
-                        </motion.div>
-                    ))}
-                </AnimatePresence>
-            </motion.div>
+                            {/* Image */}
+                            <div className="absolute inset-0">
+                                <BlurImage src={plushie.image} alt={plushie.name} fill className="object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-midnight-950 via-transparent to-transparent" />
+                            </div>
 
-            {/* Empty State */}
-            {filteredPlushies.length === 0 && (
-                <div className="text-center py-20">
-                    <p className="text-aki-muted font-mono">No plushies found in this category.</p>
-                </div>
-            )}
-        </PageShell>
+                            {/* Content */}
+                            <div className="absolute bottom-0 left-0 right-0 p-6">
+                                <div className="flex justify-between items-end mb-2">
+                                    <h3 className="font-heading font-bold text-2xl text-white">{plushie.name}</h3>
+                                    <Sparkles className={cn("h-5 w-5",
+                                        plushie.rarity === "Legendary" ? "text-yellow-400" : "text-stardust-600"
+                                    )} />
+                                </div>
+                                <div className="flex gap-2">
+                                    <span className="px-2 py-1 rounded bg-white/10 backdrop-blur-md text-xs font-mono text-stardust-300 border border-white/10 uppercase">{plushie.type}</span>
+                                    <span className="px-2 py-1 rounded bg-white/10 backdrop-blur-md text-xs font-mono text-stardust-300 border border-white/10 uppercase">{plushie.rarity}</span>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                ))}
+            </div>
+        </div>
     );
 }

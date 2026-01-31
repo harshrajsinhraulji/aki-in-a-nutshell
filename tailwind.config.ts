@@ -9,61 +9,38 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                // Aki's World Exact Tokens
-                aki: {
-                    pink: "#FF6CA4",
-                    bubblegum: "#FFD6EC",
-                    peach: "#FFF2F7",
-                    mint: "#00E6A8",
-                    lemon: "#FFE27A",
-                    dark: "#121212",
-                    light: "#F7F7F8",
-                    muted: "rgba(18, 18, 18, 0.6)", // derived
+                // Semantic Rebirth Tokens
+                midnight: {
+                    950: "#09090b", // Deep Bg
+                    900: "#18181b", // Surface
+                    800: "#27272a", // Card Highlight
+                },
+                stardust: {
+                    50: "#fafafa", // Primary Text
+                    400: "#a1a1aa", // Secondary
+                    600: "#52525b", // Muted
+                },
+                // Accents
+                neon: {
+                    purple: "#a855f7",
+                    pink: "#e879f9",
+                    cyan: "#22d3ee",
                 },
             },
             borderRadius: {
-                DEFAULT: "1.25rem", // 20px
-                "2xl": "1.25rem",
-                "3xl": "1.5rem",
-                "4xl": "2rem",
+                DEFAULT: "0.75rem",
+                "xl": "1.5rem",
             },
             fontFamily: {
                 heading: ["var(--font-sora)", "sans-serif"],
                 body: ["var(--font-inter)", "sans-serif"],
                 mono: ["var(--font-roboto-mono)", "monospace"],
             },
-            spacing: {
-                // Enforce spacing scale: 4, 8, 12, 16, 24, 32
-                "space-1": "4px",
-                "space-2": "8px",
-                "space-3": "12px",
-                "space-4": "16px",
-                "space-6": "24px",
-                "space-8": "32px",
-                "space-12": "48px",
-                "space-16": "64px",
-            },
-            transitionTimingFunction: {
-                "aki-bounce": "cubic-bezier(.22, .9, .29, 1)",
+            backgroundImage: {
+                "aurora": "conic-gradient(at top right, #a855f7 0%, transparent 40%), radial-gradient(at bottom left, #22d3ee 0%, transparent 40%)",
             },
             animation: {
-                "float": "float 6s ease-in-out infinite",
-                "bounce-soft": "bounce-soft 2s infinite",
-                "typing": "blink 1s step-end infinite",
-            },
-            keyframes: {
-                float: {
-                    "0%, 100%": { transform: "translateY(0)" },
-                    "50%": { transform: "translateY(-10px)" },
-                },
-                "bounce-soft": {
-                    "0%, 100%": { transform: "translateY(0)" },
-                    "50%": { transform: "translateY(-5px)" },
-                },
-                blink: {
-                    "0%, 100%": { opacity: "1" },
-                    "50%": { opacity: "0" },
-                },
+                "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
             },
         },
     },

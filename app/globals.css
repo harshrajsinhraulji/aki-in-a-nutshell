@@ -3,90 +3,108 @@
 @tailwind utilities;
 
 :root {
-  --background: #F7F7F8;
-  /* aki-light */
-  --foreground: #121212;
-  /* aki-dark */
+  /* Nocturnal Dreamscape Palette */
+  --bg-deep: #09090b;
+  /* Zinc 950 */
+  --bg-surface: #18181b;
+  /* Zinc 900 */
 
-  --font-sora: "Sora", sans-serif;
-  --font-inter: "Inter", sans-serif;
-  --font-roboto-mono: "Roboto Mono", monospace;
+  /* Text */
+  --text-primary: #fafafa;
+  /* Zinc 50 */
+  --text-secondary: #a1a1aa;
+  /* Zinc 400 */
+  --text-muted: #52525b;
+  /* Zinc 600 */
 
-  /* Reduced Motion */
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+  /* Accents */
+  --accent-neon: #a855f7;
+  /* Purple 500 - Neon */
+  --accent-glow: #e879f9;
+  /* Fuchsia 400 - Glow */
+  --accent-cyan: #22d3ee;
+  /* Cyan 400 - Digital */
+
+  /* Fonts */
+  --font-heading: "Sora", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "Roboto Mono", monospace;
+
+  /* Radius */
+  --radius-sm: 0.5rem;
+  /* 8px */
+  --radius-md: 0.75rem;
+  /* 12px */
+  --radius-lg: 1rem;
+  /* 16px */
+  --radius-xl: 1.5rem;
+  /* 24px */
+  --radius-full: 9999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-deep: #09090b;
+    --text-primary: #fafafa;
   }
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter);
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  antialiased: true;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  background-image: radial-gradient(#FFD6EC 1px, transparent 1px);
-  background-size: 24px 24px;
+
+  /* Selection */
+  ::selection {
+    background-color: var(--accent-neon);
+    color: white;
+  }
 }
 
-/* Typography Defaults */
+/* Premium Typography */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-sora);
-  letter-spacing: -0.02em;
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+  font-weight: 700;
 }
 
-/* Utility Classes for Aki's Vibe */
-.text-balance {
-  text-wrap: balance;
-}
-
-.glass {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-}
-
-.glass-dark {
-  background: rgba(18, 18, 18, 0.8);
+/* Utilities */
+.glass-panel {
+  background: rgba(24, 24, 27, 0.4);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+.text-gradient {
+  background: linear-gradient(135deg, #a855f7 0%, #e879f9 50%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+/* Animations */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background: #FFD6EC;
-  /* aki-bubblegum */
-  border-radius: 99px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #FF6CA4;
-  /* aki-pink */
-}
-
-/* Sticker Vibe Utility */
-.sticker-shadow {
-  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }

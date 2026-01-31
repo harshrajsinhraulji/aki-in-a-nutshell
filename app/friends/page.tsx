@@ -1,7 +1,5 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
-import PageShell from "@/components/PageShell";
 import FriendCard from "@/components/FriendCard";
 import { motion } from "framer-motion";
 
@@ -13,8 +11,6 @@ const FRIENDS = [
         avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80",
         bio: "Digital artist & night owl. I draw things that don't exist.",
         tags: ["Artist", "Gamer", "INFP"],
-        color: "bg-purple-50",
-        rotation: -2,
     },
     {
         id: 2,
@@ -23,8 +19,6 @@ const FRIENDS = [
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
         bio: "Building virtual worlds.",
         tags: ["Dev", "Music", "Coffee"],
-        color: "bg-blue-50",
-        rotation: 3,
     },
     {
         id: 3,
@@ -33,8 +27,6 @@ const FRIENDS = [
         avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
         bio: "Collecting moments and stickers.",
         tags: ["Photography", "Travel"],
-        color: "bg-red-50",
-        rotation: -1,
     },
     {
         id: 4,
@@ -43,40 +35,42 @@ const FRIENDS = [
         avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80",
         bio: "Bass player in a band you've never heard of.",
         tags: ["Music", "Bass", "Vinyl"],
-        color: "bg-gray-50",
-        rotation: 4,
     },
+    {
+        id: 5,
+        name: "Echo",
+        username: "echo_location",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80",
+        bio: "Lost in the signal noise.",
+        tags: ["Cyber", "Glitch", "Synth"],
+    }
 ];
 
 export default function FriendsPage() {
     return (
-        <PageShell>
-            <PageHeader
-                title="Friend Wall"
-                subtitle="Cool people I met on the internet."
-                emoji="🤝"
-            />
+        <div className="max-w-7xl mx-auto px-6">
+            <div className="mb-12">
+                <h1 className="text-4xl md:text-5xl font-heading font-bold text-stardust-50 mb-4">
+                    Friend <span className="text-neon-cyan">Orbit</span>
+                </h1>
+                <p className="text-stardust-400 max-w-lg">
+                    People I've met in the ether. Or maybe they're just hallucinations.
+                </p>
+            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4">
-                {FRIENDS.map((friend, index) => (
-                    <motion.div
-                        key={friend.id}
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                    >
+            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 pb-24">
+                {FRIENDS.map((friend) => (
+                    <div key={friend.id} className="break-inside-avoid">
                         <FriendCard
                             name={friend.name}
                             username={friend.username}
                             avatar={friend.avatar}
                             bio={friend.bio}
                             tags={friend.tags}
-                            color={friend.color}
-                            rotation={friend.rotation}
                         />
-                    </motion.div>
+                    </div>
                 ))}
             </div>
-        </PageShell>
+        </div>
     );
 }

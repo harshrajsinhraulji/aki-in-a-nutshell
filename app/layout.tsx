@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Sora, Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { ToastProvider } from "@/components/ui/Toast";
-import NoiseOverlay from "@/components/ui/NoiseOverlay";
+import AmbientBackground from "@/components/AmbientBackground";
+import FloatingDock from "@/components/FloatingDock";
+import { StatusBar } from "@/components/StatusBar";
 
 const sora = Sora({
     subsets: ["latin"],
@@ -38,18 +38,20 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${sora.variable} ${inter.variable} ${robotoMono.variable}`}>
             <body
-                className="antialiased min-h-screen flex flex-col bg-aki-light selection:bg-aki-pink selection:text-white overflow-x-hidden"
+                className="antialiased min-h-screen bg-midnight-950 text-stardust-50 selection:bg-neon-purple selection:text-white overflow-x-hidden"
                 suppressHydrationWarning
             >
-                <NoiseOverlay />
+                <AmbientBackground />
                 <AuthProvider>
                     <ToastProvider>
-                        <Header />
-                        {/* Main content padding for fixed header */}
-                        <main className="flex-1 pt-24 w-full max-w-[100vw] overflow-x-hidden">
+                        <StatusBar />
+
+                        {/* Core Content Area */}
+                        <main className="relative z-10 w-full min-h-screen pt-20 pb-32 overflow-x-hidden">
                             {children}
                         </main>
-                        <Footer />
+
+                        <FloatingDock />
                     </ToastProvider>
                 </AuthProvider>
             </body>
