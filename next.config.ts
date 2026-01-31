@@ -13,6 +13,13 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    // Transpile Three.js packages for SSR compatibility
+    transpilePackages: ["three", "@react-three/fiber", "@react-three/drei"],
+    // Webpack config for Three.js
+    webpack: (config) => {
+        config.externals = config.externals || [];
+        return config;
+    },
 };
 
 export default nextConfig;

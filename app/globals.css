@@ -1,8 +1,58 @@
 @import "tailwindcss";
 
-/* === Aki's World Design Tokens === */
+/* === Tailwind v4 Theme Configuration === */
+@theme {
+  /* Aki's Color Palette */
+  --color-aki-pink: #FF6CA4;
+  --color-aki-light-pink: #FFD6EC;
+  --color-aki-soft-pink: #FFF2F7;
+  --color-aki-mint: #00E6A8;
+  --color-aki-yellow: #FFE27A;
+  --color-aki-dark: #121212;
+  --color-aki-light: #F7F7F8;
+
+  /* Custom Animations */
+  --animate-fade-in: fadeIn 0.5s ease-out forwards;
+  --animate-slide-up: slideUp 0.6s ease-out forwards;
+  --animate-bounce-soft: bounceSoft 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceSoft {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* === CSS Custom Properties for non-Tailwind usage === */
 :root {
-  /* Colors */
   --aki-pink: #FF6CA4;
   --aki-light-pink: #FFD6EC;
   --aki-soft-pink: #FFF2F7;
@@ -11,19 +61,15 @@
   --aki-dark: #121212;
   --aki-light: #F7F7F8;
 
-  /* Typography */
   --font-heading: var(--font-sora), var(--font-lexend), system-ui, sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-roboto-mono), ui-monospace, monospace;
 
-  /* Spacing */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
 }
 
 /* === Base Styles === */
@@ -35,7 +81,7 @@ html {
   html {
     scroll-behavior: auto;
   }
-  
+
   *,
   *::before,
   *::after {
@@ -53,13 +99,21 @@ body {
 }
 
 /* === Typography === */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   font-weight: 600;
   line-height: 1.2;
 }
 
-code, pre, kbd, samp {
+code,
+pre,
+kbd,
+samp {
   font-family: var(--font-mono);
 }
 
