@@ -1,117 +1,69 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface IntroSequenceProps {
     onComplete: () => void;
-    reducedMotion?: boolean;
 }
 
-export default function IntroSequence({ onComplete, reducedMotion = false }: IntroSequenceProps) {
-    const [phase, setPhase] = useState<"hello" | "name" | "complete">("hello");
-    const [displayText, setDisplayText] = useState("");
-    const [showCursor, setShowCursor] = useState(true);
+export default function IntroSequence({ onComplete }: IntroSequenceProps) {
+    const [textStage, setTextStage] = useState(0);
 
-    const helloText = "Hello.";
-    const nameText = "I'm Aki.";
-
-    // Skip animation if reduced motion preferred
     useEffect(() => {
-        if (reducedMotion) {
-            setPhase("complete");
-            onComplete();
-        }
-    }, [reducedMotion, onComplete]);
+        const timer1 = setTimeout(() => setTextStage(1), 1000); // Start
+        const timer2 = setTimeout(() => setTextStage(2), 2500); // Name
+        const timer3 = setTimeout(() => setTextStage(3), 4000); // Details
+        const timer4 = setTimeout(() => onComplete(), 5500);    // Finish
 
-    // Typing effect
-    const typeText = useCallback((text: string, callback: () => void) => {
-        let index = 0;
-        const interval = setInterval(() => {
-            setDisplayText(text.slice(0, index + 1));
-            index++;
-            if (index >= text.length) {
-                clearInterval(interval);
-                callback();
-            }
-        }, 100);
-        return () => clearInterval(interval);
-    }, []);
-
-    // Cursor blink
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setShowCursor((prev) => !prev);
-        }, 530);
-        return () => clearInterval(interval);
-    }, []);
-
-    // Phase management
-    useEffect(() => {
-        if (reducedMotion) return;
-
-        if (phase === "hello") {
-            const cleanup = typeText(helloText, () => {
-                setTimeout(() => {
-                    setDisplayText("");
-                    setPhase("name");
-                }, 800);
-            });
-            return cleanup;
-        }
-
-        if (phase === "name") {
-            const cleanup = typeText(nameText, () => {
-                setTimeout(() => {
-                    setPhase("complete");
-                    onComplete();
-                }, 600);
-            });
-            return cleanup;
-        }
-    }, [phase, typeText, onComplete, reducedMotion]);
-
-    if (reducedMotion || phase === "complete") {
-        return null;
-    }
+        return () => {
+            clearTimeout(timer1);
+            clearTimeout(timer2);
+            clearTimeout(timer3);
+            clearTimeout(timer4);
+        };
+    }, [onComplete]);
 
     return (
-        <AnimatePresence>
-            <motion.div
-                className="fixed inset-0 z-50 flex items-center justify-center"
-                style={{ background: "linear-gradient(135deg, #FFF2F7 0%, #FFD6EC 50%, #F7F7F8 100%)" }}
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                <div className="text-center">
-                    <h1 className="text-5xl md:text-7xl font-heading font-bold">
-                        {phase === "hello" && (
-                            <span className="text-aki-dark">
-                                {displayText}
-                                <span
-                                    className={`inline-block w-1 h-12 md:h-16 bg-aki-pink ml-1 align-middle transition-opacity ${showCursor ? "opacity-100" : "opacity-0"
-                                        }`}
-                                    aria-hidden="true"
-                                />
-                            </span>
-                        )}
-                        {phase === "name" && (
-                            <>
-                                <span className="text-aki-dark">I&apos;m </span>
-                                <span className="text-aki-pink">
-                                    {displayText.replace("I'm ", "")}
-                                </span>
-                                <span
-                                    className={`inline-block w-1 h-12 md:h-16 bg-aki-pink ml-1 align-middle transition-opacity ${showCursor ? "opacity-100" : "opacity-0"
-                                        }`}
-                                    aria-hidden="true"
-                                />
-                            </>
-                        )}
-                    </h1>
-                </div>
-            </motion.div>
-        </AnimatePresence>
+        <div className="fixed inset-0 z-40 pointer-events-none flex flex-col items-center justify-center p-8 text-center">
+            <AnimatePresence>
+                {textStage >= 1 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="font-heading font-bold text-4xl md:text-6xl text-aki-dark py-2"
+                    >
+                        Hello.
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {textStage >= 2 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="font-heading font-bold text-4xl md:text-6xl text-aki-pink py-2"
+                    >
+                        I'm Aki.
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {textStage >= 3 && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="mt-6 font-mono text-sm md:text-base text-aki-muted bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/50"
+                    >
+                        18 • Sri Lanka → England • 🧸
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
     );
 }

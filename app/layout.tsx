@@ -36,7 +36,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className={`${sora.variable} ${inter.variable} ${robotoMono.variable}`}>
-            <body className="antialiased min-h-screen flex flex-col bg-aki-light selection:bg-aki-pink selection:text-white overflow-x-hidden">
+            <body
+                className="antialiased min-h-screen flex flex-col bg-aki-light selection:bg-aki-pink selection:text-white overflow-x-hidden"
+                suppressHydrationWarning
+            >
                 <AuthProvider>
                     <ToastProvider>
                         <Header />
