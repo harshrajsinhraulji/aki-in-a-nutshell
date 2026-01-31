@@ -1,79 +1,57 @@
-"use client";
-
-import { useState } from "react";
-import { Hero3D } from "@/components/hero-3d";
-import { IntroSequence } from "@/components/intro-sequence";
-import { ArrowDown } from "lucide-react";
-import { motion } from "framer-motion";
-
 export default function Home() {
-    const [introDone, setIntroDone] = useState(false);
-
-    // This would come from siteConfig or dynamic fetching in a real app
-    // For now we assume a standard path or the user replaces it after upload
-    const glbUrl = "/assets/aki_plush.glb";
-
     return (
-        <main className="min-h-screen relative overflow-hidden">
-            {/* Intro Overlay handles the typing + blocking interaction until ready */}
-            <div className={`transition-opacity duration-1000 ${introDone ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-                <IntroSequence onComplete={() => setIntroDone(true)} />
+        <section
+            className="relative min-h-[calc(100vh-8rem)] flex items-center justify-center px-4"
+            aria-label="Hero section"
+        >
+            {/* Background decorative elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+                <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-aki-pink/20 blur-3xl animate-bounce-soft" />
+                <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-aki-mint/20 blur-3xl animate-bounce-soft" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-aki-yellow/15 blur-3xl" />
             </div>
 
-            {/* 3D Scene Background - Fades in when intro is "done" (or specifically the reveal phase ends) */}
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: introDone ? 1 : 0, scale: introDone ? 1 : 0.9 }}
-                transition={{ duration: 1.5 }}
-                className="fixed inset-0 z-0"
-            >
-                <Hero3D modelUrl={glbUrl} />
-            </motion.div>
+            {/* Hero content */}
+            <div className="relative z-10 text-center max-w-3xl mx-auto">
+                {/* Main heading with gradient */}
+                <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 animate-fade-in">
+                    <span className="text-gradient">Hello.</span>
+                    <br />
+                    <span className="text-aki-dark">I&apos;m </span>
+                    <span className="text-aki-pink">Aki</span>
+                    <span className="inline-block animate-bounce-soft">✨</span>
+                </h1>
 
-            {/* Hero Text Overlay (The persistent part after intro) */}
-            {introDone && (
-                <div className="relative z-10 w-full h-screen flex flex-col items-center justify-center pointer-events-none">
-                    <div className="mt-[20vh] text-center">
-                        {/* We duplicate the styling from IntroSequence's final state to ensure seamless matching 
-                        In a perfect world, IntroSequence transforms into this. 
-                        For now, we just fade in the permanent version. */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="flex flex-col items-center gap-4"
-                        >
-                            <h1 className="text-6xl md:text-8xl font-heading font-bold text-offwhite drop-shadow-lg">
-                                Aki
-                            </h1>
-                            <p className="text-xl md:text-2xl text-pink-500 font-medium">
-                                18 • Sri Lanka → England
-                            </p>
-                            <p className="text-neutral-400 italic max-w-sm text-center">
-                                plushies, 03:14 confessions & travel scars — posted honestly
-                            </p>
-                        </motion.div>
-                    </div>
+                {/* Subline - verbatim microcopy */}
+                <p className="text-lg md:text-xl text-aki-dark/70 mb-8 animate-slide-up font-body" style={{ animationDelay: '0.3s' }}>
+                    welcome to my cozy corner of the internet —
+                    <br className="hidden sm:block" />
+                    plushies, late-night thoughts, and messy-cute vibes only
+                </p>
 
-                    {/* Scroll Cue */}
-                    <motion.div
-                        className="absolute bottom-10"
-                        animate={{ y: [0, 10, 0] }}
-                        transition={{ repeat: Infinity, duration: 2 }}
+                {/* CTA buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.5s' }}>
+                    <a
+                        href="/stories"
+                        className="btn-primary inline-flex items-center justify-center gap-2"
+                        aria-label="Read Aki's stories"
                     >
-                        <ArrowDown className="text-pink-500 w-8 h-8" />
-                    </motion.div>
+                        📖 read my stories
+                    </a>
+                    <a
+                        href="/plushies"
+                        className="glass px-6 py-3 rounded-full font-medium text-aki-dark hover:bg-white/80 transition-all inline-flex items-center justify-center gap-2"
+                        aria-label="Meet Aki's plushie family"
+                    >
+                        🧸 meet the plushie fam
+                    </a>
                 </div>
-            )}
 
-            {/* Content Sections Placeholder */}
-            {introDone && (
-                <div className="relative z-10 bg-dark/80 backdrop-blur-sm min-h-screen mt-[100vh]">
-                    <div className="max-w-4xl mx-auto p-8 text-center py-24">
-                        <h2 className="text-3xl font-heading text-pink-500 mb-8">Latest Stories</h2>
-                        <p className="text-neutral-400">Loading stories...</p>
-                    </div>
-                </div>
-            )}
-        </main>
+                {/* Late-night vibe indicator */}
+                <p className="mt-12 text-sm text-aki-dark/50 font-mono animate-fade-in" style={{ animationDelay: '0.8s' }}>
+                    ✦ best viewed at 2am with snacks ✦
+                </p>
+            </div>
+        </section>
     );
 }

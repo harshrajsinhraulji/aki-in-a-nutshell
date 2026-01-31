@@ -1,47 +1,145 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: #F7F7F8; /* Off-White */
-    --foreground: #121212; /* Dark Neutral */
-    
-    --radius: 1rem;
+/* === Aki's World Design Tokens === */
+:root {
+  /* Colors */
+  --aki-pink: #FF6CA4;
+  --aki-light-pink: #FFD6EC;
+  --aki-soft-pink: #FFF2F7;
+  --aki-mint: #00E6A8;
+  --aki-yellow: #FFE27A;
+  --aki-dark: #121212;
+  --aki-light: #F7F7F8;
 
-    /* Design System Colors */
-    --color-primary: #FF6CA4;
-    --color-bubblegum: #FFD6EC;
-    --color-peach: #FFF2F7;
-    --color-mint: #00E6A8;
-    --color-lemon: #FFE27A;
-    --color-dark: #121212;
-    --color-offwhite: #F7F7F8;
+  /* Typography */
+  --font-heading: var(--font-sora), var(--font-lexend), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-roboto-mono), ui-monospace, monospace;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+}
+
+/* === Base Styles === */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-
-  [data-theme="dark"] {
-    --background: #121212;
-    --foreground: #F7F7F8;
-    --color-peach: #1A1A1A; /* Adjusted for dark mode */
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-@layer base {
-  * {
-    @apply border-[rgba(255,255,255,0.1)];
-  }
-  body {
-    @apply bg-background text-foreground transition-colors duration-300;
-  }
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(135deg, var(--aki-soft-pink) 0%, var(--aki-light-pink) 50%, var(--aki-light) 100%);
+  color: var(--aki-dark);
+  min-height: 100vh;
 }
 
-/* Scrollbar */
+/* === Typography === */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+}
+
+/* === Focus States (Accessibility) === */
+:focus-visible {
+  outline: 3px solid var(--aki-pink);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* === Selection === */
+::selection {
+  background-color: var(--aki-pink);
+  color: white;
+}
+
+/* === Scrollbar (Webkit) === */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--aki-soft-pink);
 }
+
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary/30 rounded-full hover:bg-primary/50;
+  background: var(--aki-pink);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--aki-light-pink);
+}
+
+/* === Utility Classes === */
+.text-gradient {
+  background: linear-gradient(135deg, var(--aki-pink), var(--aki-mint));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary {
+  background: var(--aki-pink);
+  color: white;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--aki-light-pink);
+  color: var(--aki-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 108, 164, 0.3);
+}
+
+/* Skip to content link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--aki-dark);
+  color: white;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 0 0 8px 8px;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
 }
