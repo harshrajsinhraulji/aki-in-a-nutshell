@@ -1,539 +1,89 @@
-@import "tailwindcss";
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   AKI'S WORLD — DESIGN SYSTEM TOKENS
-   Production-ready CSS with WCAG AA accessibility compliance
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-@theme {
-  /* ─────────────────────────────────────────────────────────────────────────
-     COLOR PALETTE — All verified for WCAG AA compliance
-     ───────────────────────────────────────────────────────────────────────── */
-
-  /* Primary Pink Family */
-  --color-aki-pink: #FF6CA4;
-  /* Primary accent — 3.4:1 on white (UI) */
-  --color-aki-pink-contrast: #E84D8A;
-  /* Accessible text — 4.6:1 on white ✓ */
-  --color-aki-pink-active: #D13A75;
-  /* Pressed state — 5.8:1 on white ✓ */
-  --color-aki-light-pink: #FFD6EC;
-  /* Hover bg */
-  --color-aki-soft-pink: #FFF2F7;
-  /* Page bg */
-
-  /* Accent Colors */
-  --color-aki-mint: #00C896;
-  /* Success — use dark text */
-  --color-aki-mint-dark: #00A87D;
-  /* Accessible mint — 4.5:1 ✓ */
-  --color-aki-yellow: #FFE27A;
-  /* Warning — use dark text */
-
-  /* Neutral Colors */
-  --color-aki-dark: #121212;
-  /* Primary text — 17.5:1 ✓ */
-  --color-aki-light: #F7F7F8;
-  /* Card bg */
-  --color-aki-white: #FFFFFF;
-
-  /* Custom Animations */
-  --animate-fade-in: fadeIn 0.4s ease-out forwards;
-  --animate-slide-up: slideUp 0.5s ease-out forwards;
-  --animate-bounce-soft: bounceSoft 2s ease-in-out infinite;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CSS CUSTOM PROPERTIES
-   ═══════════════════════════════════════════════════════════════════════════ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  /* Colors */
-  --pink: #FF6CA4;
-  --pink-contrast: #E84D8A;
-  --pink-active: #D13A75;
-  --light-pink: #FFD6EC;
-  --soft-pink: #FFF2F7;
-  --mint: #00C896;
-  --mint-dark: #00A87D;
-  --yellow: #FFE27A;
-  --dark: #121212;
-  --light: #F7F7F8;
+  --background: #F7F7F8;
+  /* aki-light */
+  --foreground: #121212;
+  /* aki-dark */
 
-  /* Typography */
-  --font-heading: var(--font-sora), "Lexend", system-ui, sans-serif;
-  --font-body: var(--font-inter), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-roboto-mono), ui-monospace, "SF Mono", monospace;
+  --font-sora: "Sora", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-roboto-mono: "Roboto Mono", monospace;
 
-  /* Text opacity variants */
-  --text-muted: rgba(18, 18, 18, 0.5);
-  --text-secondary: rgba(18, 18, 18, 0.7);
-  --text-primary: rgba(18, 18, 18, 0.9);
-
-  /* Spacing (8px base) */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 48px;
-  --space-8: 64px;
-  --space-9: 96px;
-
-  /* Layout */
-  --max-width-content: 1100px;
-  --max-width-card: 320px;
-  --header-height: 64px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.06);
-  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.10);
-
-  /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
-
-  /* Animation */
-  --duration-fast: 100ms;
-  --duration-normal: 200ms;
-  --duration-slow: 300ms;
-  --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   KEYFRAMES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes bounceSoft {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   BASE STYLES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
 }
 
 body {
-  font-family: var(--font-body);
-  background: linear-gradient(180deg,
-      var(--soft-pink) 0%,
-      var(--light-pink) 40%,
-      var(--light) 100%);
-  background-attachment: fixed;
-  color: var(--dark);
-  min-height: 100vh;
-  line-height: 1.5;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
+  antialiased: true;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
+/* Typography Defaults */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--dark);
+  font-family: var(--font-sora);
+  letter-spacing: -0.02em;
 }
 
-code,
-pre,
-kbd,
-samp {
-  font-family: var(--font-mono);
+/* Utility Classes for Aki's Vibe */
+.text-balance {
+  text-wrap: balance;
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   ACCESSIBILITY
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-:focus-visible {
-  outline: 3px solid var(--pink-contrast);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--dark);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 0 0 8px 8px;
-  z-index: 9999;
-  font-weight: 500;
-  transition: top 0.2s;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   LAYOUT
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.container {
-  width: 100%;
-  max-width: var(--max-width-content);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--space-4);
-  padding-right: var(--space-4);
-}
-
-@media (min-width: 640px) {
-  .container {
-    padding-left: var(--space-5);
-    padding-right: var(--space-5);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   GLASSMORPHISM
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 .glass {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: var(--shadow-card);
-  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.glass-subtle {
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   BUTTONS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-5);
-  border-radius: var(--radius-full);
-  font-weight: 600;
-  font-size: 14px;
-  transition: all var(--duration-normal) var(--ease-out);
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-  min-height: 44px;
-}
-
-.btn-primary {
-  background: var(--pink);
+.glass-dark {
+  background: rgba(18, 18, 18, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: white;
 }
 
-.btn-primary:hover {
-  background: var(--light-pink);
-  color: var(--dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-primary:active {
-  background: var(--pink-active);
-  color: white;
-  transform: translateY(0);
-}
-
-.btn-primary:disabled {
-  background: rgba(18, 18, 18, 0.2);
-  color: rgba(18, 18, 18, 0.4);
-  cursor: not-allowed;
-  transform: none;
-}
-
-.btn-secondary {
-  background: rgba(255, 108, 164, 0.15);
-  color: var(--pink-contrast);
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 108, 164, 0.25);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--dark);
-}
-
-.btn-ghost:hover {
-  background: rgba(18, 18, 18, 0.05);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CARDS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: var(--shadow-card);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  transition: transform var(--duration-normal) var(--ease-out),
-    box-shadow var(--duration-normal) var(--ease-out);
-}
-
-.card:hover {
-  transform: scale(1.02);
-  box-shadow: var(--shadow-card-hover);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card:hover {
-    transform: none;
-  }
-}
-
-.card-grid {
-  display: grid;
-  gap: var(--space-6);
-  grid-template-columns: repeat(1, minmax(0, var(--max-width-card)));
-  justify-content: center;
-}
-
-@media (min-width: 640px) {
-  .card-grid {
-    grid-template-columns: repeat(2, minmax(0, var(--max-width-card)));
-  }
-}
-
-@media (min-width: 1024px) {
-  .card-grid {
-    grid-template-columns: repeat(3, minmax(0, var(--max-width-card)));
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   TAGS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-full);
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: lowercase;
-}
-
-.tag-pink {
-  background: rgba(255, 108, 164, 0.2);
-  color: var(--pink-contrast);
-}
-
-.tag-mint {
-  background: rgba(0, 200, 150, 0.15);
-  color: var(--mint-dark);
-}
-
-.tag-yellow {
-  background: rgba(255, 226, 122, 0.4);
-  color: var(--dark);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   HEADER
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.header {
-  position: sticky;
-  top: 0;
-  height: var(--header-height);
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: box-shadow var(--duration-normal);
-}
-
-.header-scrolled {
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
-}
-
-.nav-link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--dark);
-  text-decoration: none;
-  transition: background var(--duration-fast);
-  min-height: 44px;
-}
-
-.nav-link:hover {
-  background: rgba(255, 108, 164, 0.1);
-}
-
-.nav-link-active {
-  color: var(--pink-contrast);
-  position: relative;
-}
-
-.nav-link-active::after {
-  content: "";
-  position: absolute;
-  bottom: 4px;
-  left: 12px;
-  right: 12px;
-  height: 2px;
-  background: var(--pink);
-  border-radius: 1px;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   EMPTY STATES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--space-8) var(--space-5);
-  min-height: 300px;
-}
-
-.empty-state-icon {
-  font-size: 64px;
-  margin-bottom: var(--space-5);
-  opacity: 0.8;
-}
-
-.empty-state-title {
-  font-family: var(--font-heading);
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--dark);
-  margin-bottom: var(--space-2);
-}
-
-.empty-state-message {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-bottom: var(--space-5);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   TEXT UTILITIES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.text-gradient {
-  background: linear-gradient(135deg, var(--pink), var(--mint));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SELECTION & SCROLLBAR
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-::selection {
-  background-color: var(--pink);
-  color: white;
-}
-
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
-  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--soft-pink);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--pink);
-  border-radius: 4px;
+  background: #FFD6EC;
+  /* aki-bubblegum */
+  border-radius: 99px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--pink-contrast);
+  background: #FF6CA4;
+  /* aki-pink */
+}
+
+/* Sticker Vibe Utility */
+.sticker-shadow {
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
 }
