@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F7F7F8; /* Off-White */
+    --foreground: #121212; /* Dark Neutral */
+    
+    --radius: 1rem;
+
+    /* Design System Colors */
+    --color-primary: #FF6CA4;
+    --color-bubblegum: #FFD6EC;
+    --color-peach: #FFF2F7;
+    --color-mint: #00E6A8;
+    --color-lemon: #FFE27A;
+    --color-dark: #121212;
+    --color-offwhite: #F7F7F8;
+  }
+
+  [data-theme="dark"] {
+    --background: #121212;
+    --foreground: #F7F7F8;
+    --color-peach: #1A1A1A; /* Adjusted for dark mode */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-[rgba(255,255,255,0.1)];
+  }
+  body {
+    @apply bg-background text-foreground transition-colors duration-300;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/30 rounded-full hover:bg-primary/50;
+}

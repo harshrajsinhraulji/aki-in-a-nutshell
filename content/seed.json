@@ -1,0 +1,122 @@
+{
+    "stories": [
+        {
+            "id": "story-1",
+            "title": "The Night I Ate a Cloud",
+            "slug": "night-i-ate-a-cloud",
+            "excerpt": "It tasted like rain and pollution, mostly.",
+            "bodyMarkdown": "# The Flavor of Altitude\n\nThey say clouds taste like cotton candy. They are liars. I stuck my head out the window of a Cessna.",
+            "coverUrl": "https://placehold.co/600x400/FF6CA4/121212?text=Cloud",
+            "tags": [
+                "Travel",
+                "Chaos"
+            ],
+            "publishedAt": "2024-01-15T03:14:00Z",
+            "authorId": "aki"
+        },
+        {
+            "id": "story-2",
+            "title": "Lost in Shinjuku",
+            "slug": "lost-in-shinjuku",
+            "excerpt": "I found a claw machine that only dispensed lettuce.",
+            "bodyMarkdown": "# Green Greens\n\nWhy lettuce? Who needs a head of lettuce at 4 AM? Me, apparently.",
+            "coverUrl": "https://placehold.co/600x400/00E6A8/121212?text=Lettuce",
+            "tags": [
+                "Japan",
+                "Food"
+            ],
+            "publishedAt": "2024-02-01T22:00:00Z",
+            "authorId": "aki"
+        },
+        {
+            "id": "story-3",
+            "title": "Plushie Hospital",
+            "slug": "plushie-hospital",
+            "excerpt": "Dr. Fluff had to perform emergency surgery on Mr. Bear.",
+            "bodyMarkdown": "# Stitches\n\nHe lost an eye in the washing machine. It was tragic.",
+            "coverUrl": "https://placehold.co/600x400/FFE27A/121212?text=Surgery",
+            "tags": [
+                "Plushies",
+                "Tragedy"
+            ],
+            "publishedAt": "2024-03-10T10:00:00Z",
+            "authorId": "aki"
+        }
+    ],
+    "plushies": [
+        {
+            "id": "plush-1",
+            "name": "Sir Stabs-a-Lot",
+            "description": "A shark with a knife plushie. Acquired at a shady boardwalk.",
+            "coverUrl": "https://placehold.co/400x400/FFD6EC/121212?text=Shark",
+            "images": [
+                "https://placehold.co/400x400/FFD6EC/121212?text=Shark1"
+            ],
+            "tags": [
+                "Shark",
+                "Dangerous"
+            ],
+            "isPublic": true,
+            "moodLog": [
+                {
+                    "ts": 1709262840000,
+                    "text": "Feeling sharp today."
+                }
+            ]
+        },
+        {
+            "id": "plush-2",
+            "name": "Mothman",
+            "description": "He seeks the lamp. He is soft.",
+            "coverUrl": "https://placehold.co/400x400/121212/FF6CA4?text=Moth",
+            "images": [],
+            "tags": [
+                "Cryptid"
+            ],
+            "isPublic": true,
+            "moodLog": []
+        },
+        {
+            "id": "plush-3",
+            "name": "Boba tea",
+            "description": "It has a face. Why does tea have a face?",
+            "coverUrl": "https://placehold.co/400x400/FFF2F7/FF6CA4?text=Boba",
+            "images": [],
+            "tags": [
+                "Food"
+            ],
+            "isPublic": true,
+            "moodLog": []
+        }
+    ],
+    "confessions": [
+        {
+            "id": "conf-1",
+            "body": "I secretly love the smell of gasoline.",
+            "isPublic": true,
+            "status": "approved",
+            "flags": 0,
+            "reactions": {
+                "same": 5
+            }
+        },
+        {
+            "id": "conf-2",
+            "body": "I pretend to be on the phone when I see people I know.",
+            "isPublic": true,
+            "status": "approved",
+            "flags": 0,
+            "reactions": {
+                "lol": 12
+            }
+        },
+        {
+            "id": "conf-3",
+            "body": "I want to hurt myself.",
+            "isPublic": true,
+            "status": "pending",
+            "flags": 1,
+            "reactions": {}
+        }
+    ]
+}
