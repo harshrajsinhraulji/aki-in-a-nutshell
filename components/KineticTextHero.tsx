@@ -61,7 +61,7 @@ export function KineticTextHero() {
                         // Fallback color + Gradient
                         color: hovered ? "transparent" : "transparent",
                         backgroundImage: hovered
-                            ? `url(${PROFILE_IMAGES[currentImage]})`
+                            ? `url("${PROFILE_IMAGES[currentImage]}")`
                             : "linear-gradient(135deg, #FF6B9D 0%, #C084FC 50%, #F9A8D4 100%)",
                         backgroundSize: "cover",
                         backgroundPosition: "center",

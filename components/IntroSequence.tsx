@@ -27,7 +27,7 @@ export default function IntroSequence({ onComplete }: IntroSequenceProps) {
     useEffect(() => {
         // Force intro replay for new version
         if (typeof window !== 'undefined') {
-            const hasSeen = localStorage.getItem("intro_seen_2");
+            const hasSeen = localStorage.getItem("intro_seen_v3");
             if (hasSeen) {
                 onComplete();
                 return;
@@ -49,7 +49,7 @@ export default function IntroSequence({ onComplete }: IntroSequenceProps) {
         const timer2 = setTimeout(() => setTextStage(2), 2000); // I'm Aki (Images appear)
         const timer3 = setTimeout(() => setTextStage(3), 4000); // Details
         const timer4 = setTimeout(() => {
-            if (typeof window !== 'undefined') localStorage.setItem("intro_seen_2", "true");
+            if (typeof window !== 'undefined') localStorage.setItem("intro_seen_v3", "true");
             onComplete();
         }, 6000);
 
@@ -70,13 +70,13 @@ export default function IntroSequence({ onComplete }: IntroSequenceProps) {
                 {textStage === 2 && (
                     <motion.div
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.15 }}
+                        animate={{ opacity: 0.3 }}
                         exit={{ opacity: 0 }}
                         className="absolute inset-0 z-0 pointer-events-none"
                     >
                         <div
                             className="w-full h-full bg-cover bg-center transition-all duration-100 ease-linear"
-                            style={{ backgroundImage: `url(${INTRO_IMAGES[currentBgImage]})` }}
+                            style={{ backgroundImage: `url("${INTRO_IMAGES[currentBgImage]}")` }}
                         />
                     </motion.div>
                 )}
