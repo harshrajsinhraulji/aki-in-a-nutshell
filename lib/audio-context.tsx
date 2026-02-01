@@ -43,6 +43,9 @@ interface AudioContextType {
     prevTrack: () => void;
     playlist: Song[];
     analyser: AnalyserNode | null;
+    duration: number;
+    currentTime: number;
+    seek: (time: number) => void;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -53,6 +56,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const [currentTrack, setCurrentTrack] = useState<Song | null>(null);
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
     const soundRef = useRef<any>(null);
+    const [duration, setDuration] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
     const analyserRef = useRef<AnalyserNode | null>(null);
 
     // Setup Web Audio API Analyser for visualizer
@@ -69,7 +74,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
                 }
             }
         });
-    }, []);
+
+        // Loop to update current time for UI
+        const timer = setInterval(() => {
+            if (soundRef.current && isPlaying) {
+                setCurrentTime(soundRef.current.seek());
+            }
+        }, 1000);
+        return () => clearInterval(timer);
+    }, [isPlaying]);
 
     const playTrack = useCallback(async (song: Song) => {
         const { Howl } = await import('howler');
@@ -90,18 +103,31 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             src: [song.url],
             html5: true,
             volume: volume,
-            onplay: () => setIsPlaying(true),
+            onplay: () => {
+                setIsPlaying(true);
+                setDuration(soundRef.current.duration());
+            },
             onpause: () => setIsPlaying(false),
             onend: () => {
                 // Auto-play next track
                 const nextIndex = (index + 1) % PLAYLIST.length;
                 playTrack(PLAYLIST[nextIndex]);
             },
+            onload: () => {
+                setDuration(soundRef.current.duration());
+            },
             onloaderror: (id, error) => console.error("Load error:", error),
         });
 
         soundRef.current.play();
     }, [volume]);
+
+    const seek = useCallback((time: number) => {
+        if (soundRef.current) {
+            soundRef.current.seek(time);
+            setCurrentTime(time);
+        }
+    }, []);
 
     const togglePlay = useCallback(() => {
         if (!soundRef.current) {
@@ -175,7 +201,10 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             nextTrack,
             prevTrack,
             playlist: PLAYLIST,
-            analyser: analyserRef.current
+            analyser: analyserRef.current,
+            duration,
+            currentTime,
+            seek
         }}>
             {children}
         </AudioContext.Provider>

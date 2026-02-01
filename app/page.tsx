@@ -5,16 +5,34 @@ import { GlassCard } from "@/components/GlassCard";
 import IntroSequence from "@/components/IntroSequence";
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Music, BookOpen, Ghost, Sparkles } from "lucide-react";
+import { ArrowUpRight, Music, BookOpen, Ghost, Sparkles, Play, Pause, SkipForward, SkipBack } from "lucide-react";
 import { Vinyl } from "@/components/Vinyl";
 import { AudioVisualizer } from "@/components/AudioVisualizer";
 import { HolographicFoil } from "@/components/HolographicFoil";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAudio } from "@/lib/audio-context";
+import { Slider } from "@/components/ui/Slider";
+
+// Helper to format s -> mm:ss
+function formatTime(seconds: number) {
+    if (!seconds || isNaN(seconds)) return "0:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
 
 export default function Home() {
     const [introComplete, setIntroComplete] = useState(false);
-    const { currentTrack, isPlaying } = useAudio();
+    const {
+        currentTrack,
+        isPlaying,
+        togglePlay,
+        nextTrack,
+        prevTrack,
+        duration,
+        currentTime,
+        seek
+    } = useAudio();
 
     return (
         <main className="min-h-screen relative flex flex-col items-center p-4 md:p-8 selection:bg-aki-pink selection:text-white">
@@ -88,34 +106,93 @@ export default function Home() {
                             </Link>
                         </motion.div>
 
-                        {/* 2. Mixtape (Wide) */}
+                        {/* 2. Mixtape (Wide) - NOW INTERACTIVE MINI-PLAYER */}
                         <motion.div
                             variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
                             className="md:col-span-8 md:row-span-1"
                         >
-                            <Link href="/music">
-                                <GlassCard layoutId="mixtape-card" className="h-full p-6 group relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-aki-purple/20 hover:-translate-y-1">
-                                    <div className="flex flex-nowrap items-center justify-between h-full w-full">
-                                        <div className="relative z-10 flex flex-col justify-center h-full min-w-0 flex-1 mr-4">
-                                            <div className="flex items-center gap-2 mb-1">
-                                                {isPlaying && <AudioVisualizer className="w-16 h-4 opacity-70" />}
-                                                <span className="text-[10px] font-bold uppercase tracking-widest text-aki-purple/80">
-                                                    {isPlaying ? "Now Playing" : "Tap to Play"}
-                                                </span>
-                                            </div>
-                                            <h2 className="text-2xl font-heading font-bold text-foreground truncate selection:bg-aki-purple selection:text-white">
+                            <GlassCard layoutId="mixtape-card" className="h-full p-6 relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-aki-purple/10">
+                                {/* Interactive Player UI */}
+                                <div className="flex flex-col md:flex-row items-center justify-between h-full w-full gap-4">
+
+                                    {/* Left: Info & Controls */}
+                                    <div className="flex flex-col justify-between h-full w-full min-w-0 flex-1 z-20">
+
+                                        {/* Header */}
+                                        <div className="flex items-center gap-2 mb-2">
+                                            {isPlaying && <AudioVisualizer className="w-16 h-4 opacity-70" />}
+                                            <span className="text-[10px] font-bold uppercase tracking-widest text-aki-purple/80">
+                                                {isPlaying ? "Now Playing" : "Tap Vinyl to Play"}
+                                            </span>
+                                        </div>
+
+                                        {/* Track Details */}
+                                        <div className="mb-4">
+                                            <h2 className="text-2xl md:text-3xl font-heading font-bold text-foreground truncate selection:bg-aki-purple selection:text-white">
                                                 {currentTrack?.title || "Aki's Mixtape"}
                                             </h2>
-                                            {currentTrack?.artist && (
-                                                <p className="text-sm text-muted-foreground truncate">{currentTrack.artist}</p>
-                                            )}
+                                            <p className="text-sm md:text-base text-muted-foreground truncate font-light">
+                                                {currentTrack?.artist || "Curated vibes"}
+                                            </p>
                                         </div>
-                                        <div className="relative z-10 shrink-0 group-hover:scale-110 transition-transform duration-500">
-                                            <Vinyl className="w-20 h-20" />
+
+                                        {/* Controls & Progress */}
+                                        <div className="w-full space-y-3">
+                                            {/* Progress Bar */}
+                                            {currentTrack && (
+                                                <div className="flex items-center gap-3 w-full">
+                                                    <span className="text-[10px] font-mono text-muted-foreground w-8 text-right">
+                                                        {formatTime(currentTime)}
+                                                    </span>
+                                                    <div className="flex-1 group">
+                                                        <Slider
+                                                            value={currentTime}
+                                                            max={duration || 100} // Prevent div by zero
+                                                            onChange={(e) => seek(Number(e.target.value))}
+                                                            className="h-1.5 transition-all group-hover:h-2"
+                                                        />
+                                                    </div>
+                                                    <span className="text-[10px] font-mono text-muted-foreground w-8">
+                                                        {formatTime(duration)}
+                                                    </span>
+                                                </div>
+                                            )}
+
+                                            {/* Buttons */}
+                                            <div className="flex items-center gap-4">
+                                                <button onClick={prevTrack} className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-foreground/70 hover:text-foreground">
+                                                    <SkipBack size={20} fill="currentColor" className="opacity-50" />
+                                                </button>
+
+                                                <button
+                                                    onClick={togglePlay}
+                                                    className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-foreground text-background shadow-lg hover:scale-105 active:scale-95 transition-all"
+                                                >
+                                                    {isPlaying ? (
+                                                        <Pause size={20} fill="currentColor" />
+                                                    ) : (
+                                                        <Play size={20} fill="currentColor" className="ml-0.5" />
+                                                    )}
+                                                </button>
+
+                                                <button onClick={nextTrack} className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-foreground/70 hover:text-foreground">
+                                                    <SkipForward size={20} fill="currentColor" className="opacity-50" />
+                                                </button>
+
+                                                {/* View Full Playlist Link */}
+                                                <Link href="/music" className="ml-auto text-xs font-medium text-aki-purple hover:underline underline-offset-4 decoration-aki-pink/50">
+                                                    View Playlist →
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
-                                </GlassCard>
-                            </Link>
+
+                                    {/* Right: Vinyl Animation (Interactive) */}
+                                    <div className="relative shrink-0 z-10 hidden md:block group-hover:scale-105 transition-transform duration-500">
+                                        <Vinyl className="w-28 h-28 md:w-40 md:h-40 shadow-2xl" />
+                                    </div>
+                                </div>
+                            </GlassCard>
                         </motion.div>
 
                         {/* 3. Confessions (Small) */}

@@ -33,6 +33,11 @@ next-env.d.ts
 
 # Large media files (serve externally in production)
 public/music/*.mp3
+!public/music/Black Beatles.mp3
+!public/music/Cola.mp3
+!public/music/Drinkee.mp3
+!public/music/Fast Car.mp3
+!public/music/Guess featuring billie eilish.mp3
 
 # IDE
 .idea
