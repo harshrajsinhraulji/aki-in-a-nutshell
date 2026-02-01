@@ -25,9 +25,19 @@ export default function IntroSequence({ onComplete }: IntroSequenceProps) {
     ];
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && localStorage.getItem("intro_seen")) {
-            onComplete();
-            return;
+        // Force intro replay for new version
+        if (typeof window !== 'undefined') {
+            const hasSeen = localStorage.getItem("intro_seen_2");
+            if (hasSeen) {
+                onComplete();
+                return;
+            }
+
+            // Preload images for smooth playback
+            INTRO_IMAGES.forEach((src) => {
+                const img = new Image();
+                img.src = src;
+            });
         }
 
         // Image cycling
@@ -39,7 +49,7 @@ export default function IntroSequence({ onComplete }: IntroSequenceProps) {
         const timer2 = setTimeout(() => setTextStage(2), 2000); // I'm Aki (Images appear)
         const timer3 = setTimeout(() => setTextStage(3), 4000); // Details
         const timer4 = setTimeout(() => {
-            if (typeof window !== 'undefined') localStorage.setItem("intro_seen", "true");
+            if (typeof window !== 'undefined') localStorage.setItem("intro_seen_2", "true");
             onComplete();
         }, 6000);
 
