@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* "Just a Gurl" Light Theme */
+        --background: 330 100% 96%;
+        --foreground: 260 20% 15%;
+        --muted: 330 50% 90%;
+        --muted-foreground: 260 10% 40%;
+        --card: 0 0% 100%;
+        --card-foreground: 260 20% 15%;
+        --border: 330 50% 90%;
+        --primary: 330 100% 71%;
+        --secondary: 260 100% 75%;
+    }
+
+    .dark {
+        /* "Midnight Gurl" Dark Theme - Deepened for High Contrast */
+        --background: 265 95% 4%;
+        /* Almost Black Purple */
+        --foreground: 330 100% 96%;
+        --muted: 265 50% 15%;
+        --muted-foreground: 260 20% 70%;
+        --card: 265 50% 5%;
+        /* Darker Card */
+        --card-foreground: 330 100% 96%;
+        --border: 265 50% 20%;
+        --primary: 320 100% 60%;
+        --secondary: 250 100% 65%;
+    }
+
+    body {
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+        overflow-x: hidden;
+        cursor: none;
+    }
+
+
+}
+
+/* Subtle, barely there grain - Cleaner than before */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.02;
+    /* Reduced from 0.05 */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Smooth Scrollbar (Webkit) */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #FF6CA4;
+}
+
+/* Selection */
+::selection {
+    background: #FF6CA4;
+    color: #000;
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .glass {
+        @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl;
+    }
+}
