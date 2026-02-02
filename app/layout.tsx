@@ -20,6 +20,8 @@ const AmbientSound = dynamic(() => import("@/components/AmbientSound").then(mod 
 const PlushieBasket = dynamic(() => import("@/components/PlushieBasket").then(mod => mod.PlushieBasket), { ssr: false });
 const KonamiCode = dynamic(() => import("@/components/KonamiCode").then(mod => mod.KonamiCode), { ssr: false });
 const Breadcrumbs = dynamic(() => import("@/components/Breadcrumbs").then(mod => mod.Breadcrumbs), { ssr: false });
+const DynamicTitle = dynamic(() => import("@/components/DynamicTitle").then(mod => mod.DynamicTitle), { ssr: false });
+const FluidBackground = dynamic(() => import("@/components/FluidBackground").then(mod => mod.FluidBackground), { ssr: false });
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -67,9 +69,11 @@ export default function RootLayout({
                             <ScrollProgress />
                             <StatusPill />
                             <DynamicFavicon />
-                            <AmbientSound />
+                            {/* <AmbientSound /> */}
                             <PlushieBasket />
                             <KonamiCode />
+                            <DynamicTitle />
+                            <FluidBackground enabled={false} />
                             <Breadcrumbs />
                             <Decorations />
                             <Navbar />

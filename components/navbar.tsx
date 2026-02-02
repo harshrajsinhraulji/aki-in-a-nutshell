@@ -17,6 +17,7 @@ const NAV_LINKS = [
 
 import { Dock, DockItem } from "@/components/ui/Dock";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { MagneticLink } from "@/components/MagneticButton";
 
 export function Navbar() {
     const pathname = usePathname();
@@ -55,21 +56,23 @@ export function Navbar() {
                         const isActive = pathname === link.href;
                         return (
                             <DockItem key={link.href}>
-                                <Link
-                                    href={link.href}
-                                    className={cn(
-                                        "relative text-sm font-medium transition-colors hover:text-aki-highlight px-3 py-2 block whitespace-nowrap",
-                                        isActive ? "text-aki-pink" : "text-foreground/70"
-                                    )}
-                                >
-                                    {link.label}
-                                    {isActive && (
-                                        <motion.div
-                                            layoutId="nav-dot"
-                                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-aki-pink"
-                                        />
-                                    )}
-                                </Link>
+                                <MagneticLink>
+                                    <Link
+                                        href={link.href}
+                                        className={cn(
+                                            "relative text-sm font-medium transition-colors hover:text-aki-highlight px-3 py-2 block whitespace-nowrap",
+                                            isActive ? "text-aki-pink" : "text-foreground/70"
+                                        )}
+                                    >
+                                        {link.label}
+                                        {isActive && (
+                                            <motion.div
+                                                layoutId="nav-dot"
+                                                className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-aki-pink"
+                                            />
+                                        )}
+                                    </Link>
+                                </MagneticLink>
                             </DockItem>
                         );
                     })}

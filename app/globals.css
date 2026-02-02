@@ -88,3 +88,14 @@
         @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl;
     }
 }
+
+/* Shimmer animation for skeletons */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}

@@ -27,16 +27,23 @@ export default function IntroSequence({ onComplete }: IntroSequenceProps) {
     useEffect(() => {
         // Force intro replay for new version
         if (typeof window !== 'undefined') {
-            const hasSeen = localStorage.getItem("intro_seen_v3");
+            // DEBUG: Changed key to force replay and added logs
+            const hasSeen = localStorage.getItem("intro_seen_debug_1");
+            console.log("[IntroDebug] Checking seen status:", hasSeen);
+
             if (hasSeen) {
+                console.log("[IntroDebug] Intro already seen, skipping.");
                 onComplete();
                 return;
             }
 
+            console.log("[IntroDebug] Starting preload of", INTRO_IMAGES.length, "images");
             // Preload images for smooth playback
             INTRO_IMAGES.forEach((src) => {
                 const img = new Image();
                 img.src = src;
+                img.onload = () => console.log("[IntroDebug] Loaded:", src);
+                img.onerror = (e) => console.error("[IntroDebug] Failed to load:", src, e);
             });
         }
 
@@ -49,7 +56,7 @@ export default function IntroSequence({ onComplete }: IntroSequenceProps) {
         const timer2 = setTimeout(() => setTextStage(2), 2000); // I'm Aki (Images appear)
         const timer3 = setTimeout(() => setTextStage(3), 4000); // Details
         const timer4 = setTimeout(() => {
-            if (typeof window !== 'undefined') localStorage.setItem("intro_seen_v3", "true");
+            if (typeof window !== 'undefined') localStorage.setItem("intro_seen_debug_1", "true");
             onComplete();
         }, 6000);
 
